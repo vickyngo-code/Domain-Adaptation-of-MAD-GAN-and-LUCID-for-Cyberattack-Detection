@@ -1,6 +1,6 @@
 # MPhil-AUT
 
-# GPU
+## GPU
 HP Z4 G4 Workstation
 Processor: Xeon W-2265 3.5 12C 24T 3.5~4.8 GHZ 19.25 MB cache
 RAM: 128 GB
