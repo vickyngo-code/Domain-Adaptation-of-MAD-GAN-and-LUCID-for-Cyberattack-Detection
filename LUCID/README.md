@@ -1,4 +1,4 @@
-Use the .ipynb for your convenience, but refer to the below for better instruction from the author, or just go to his repo.
+Use the lucid.ipynb file for your convenience, but refer to the below for better instruction from the author, or just go to his repo.
 
 # LUCID: A Practical, Lightweight Deep Learning Solution for DDoS Attack Detection
 
