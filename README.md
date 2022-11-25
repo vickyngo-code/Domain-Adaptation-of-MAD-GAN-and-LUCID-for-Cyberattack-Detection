@@ -62,7 +62,7 @@ There are two main things if you want to train and test any dataset:<br />
 
 Truthfully speaking, the cicddos() and cicddos_test() functions are exact copy of the existing swat() and swat_test() functions. You can use kdd99() and kdd99_test() functions as references also. The only changes are the file path to training & testing data. I do think that we can optimize this part of the script to generalize it for multiple datasets, so other users don't have to add new functions every time.<br />
 
-Here's my snippet of `def get_data()`:
+Here's my snippet of `def get_data()`:<br />
 `    elif data_type == 'cicddos2017':`<br />
         `samples, labels = swat(seq_length, seq_step, num_signals)`<br />
     `elif data_type == 'cicddos2019'`:<br />
