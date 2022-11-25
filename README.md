@@ -6,10 +6,10 @@ RGAN: https://github.com/ratschlab/RGAN  <br />
 Unfortunately, I will not be distributing the SWaT dataset or the CICICD2017 or CICDDoS2019 datasets. Please refer to their respective websites. <br />
 CICID2017: https://www.unb.ca/cic/datasets/ids-2017.html <br />
 CICDDoS2019: https://www.unb.ca/cic/datasets/ddos-2019.html <br />
-SWaT: https://itrust.sutd.edu.sg/itrust-labs_datasets/dataset_info/ <br/ >
+SWaT: https://itrust.sutd.edu.sg/itrust-labs_datasets/dataset_info/ <br />
 
 This GitHub repo stores the project I did for my Master of Philosophy thesis at Auckland University of Technology, and for the following publication:
-(upcoming) <br/ >
+(upcoming) <br />
 Please cite the publication and this repo if you are using it for academia purposes.
 
 MAD-GAN is an anomaly detection model for cyber-physical systems, trained using the SWaT dataset. LUCID is a DDoS detection model for network, IoT, edge computing, trained with datasets from University of New Brunswick (incl. CICIDS2017 at the time of publication). In this research, I attempted to perform domain adaptation (transfer learning) on both models, i.e.
