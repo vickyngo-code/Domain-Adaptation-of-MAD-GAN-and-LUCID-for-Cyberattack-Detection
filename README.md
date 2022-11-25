@@ -1,104 +1,38 @@
-# MPhil-AUT
-LUCID: https://github.com/doriguzzi/lucid-ddos  <br />
-MAD-GAN (based on RGAN): https://github.com/LiDan456/MAD-GANs  <br />
-RGAN: https://github.com/ratschlab/RGAN  <br />
+# -- Multivariate Anomaly Detection for Time Series Data with GANs -- #
 
-Unfortunately, I will not be distributing the SWaT dataset or the CICICD2017 or CICDDoS2019 datasets. Please refer to their respective websites. <br />
-CICID2017: https://www.unb.ca/cic/datasets/ids-2017.html <br />
-CICDDoS2019: https://www.unb.ca/cic/datasets/ddos-2019.html <br />
-SWaT: https://itrust.sutd.edu.sg/itrust-labs_datasets/dataset_info/ <br />
+# MAD-GAN
 
-This GitHub repo stores the project I did for my Master of Philosophy thesis at Auckland University of Technology, and for the following publication:
-(upcoming) <br />
-Please cite the publication and this repo if you are using it for academia purposes.
+This repository contains code for the paper, _[MAD-GAN: Multivariate Anomaly Detection for Time Series Data with Generative Adversarial Networks](https://arxiv.org/pdf/1901.04997.pdf)_, by Dan Li, Dacheng Chen, Jonathan Goh, and See-Kiong Ng.
 
-MAD-GAN is an anomaly detection model for cyber-physical systems, trained using the SWaT dataset. LUCID is a DDoS detection model for network, IoT, edge computing, trained with datasets from University of New Brunswick (incl. CICIDS2017 at the time of publication). In this research, I attempted to perform domain adaptation (transfer learning) on both models, i.e.
-- Train LUCID on CICIDS2017 + CICDDoS2019 and test it on SWaT dataset, and vice versa.
-- Train MAD-GAN on CICIDS2017 + CICDDoS2019 and test it on SWaT dataset, and vice versa.
+MAD-GAN is a refined version of GAN-AD at _[Anomaly Detection with Generative Adversarial Networks for Multivariate Time Series](https://arxiv.org/pdf/1809.04758.pdf)_ The code can be found at https://github.com/LiDan456/GAN-AD
 
-More information on the results can be found in the preprint version of my publication attached here as a pdf (to avoid copyright infringements). After all, research has to be reproducible!
+(We are still working on this topic, will upload the completed version later...)
 
-## Technical Information
-**CPU**
-HP Z4 G4 Workstation  
-Processor: Xeon W-2265 3.5 12C 24T 3.5~4.8 GHZ 19.25 MB cache  
-RAM: 128 GB  
-Storage: 1TB SSD + 4TB HDD  
-OS: Ubuntu 22.04.01  
+## Overview
 
-**Core Dependencies**
-| LUCID  | MAD-GAN (training) | MAD-GAN (testing)|
-| ------------- | ------------- | ------------- |
-| Python v3.9.13  | Python v3.6.13 | Python v3.10.6 |
-| numpy v1.23.3 | numpy v1.19.2  | numpy v1.23.5 |
-| scipy v1.9.1 | scipy v1.1.0 | scipy v1.9.3 |
-| tensorflow v2.4.1 | tensorflow v1.15.1 | tensorflow v2.11.0 |
-| scikit-learn v1.1.3 | scikit-learn v0.19.1 | scikit-learn v1.1.3 |
-| tshark v3.6.2 | pandas v0.22.0 | pandas v1.5.2 |
-|pyshark v0.5.3 | matplotlib v2.1.1| matplotlib v5.0.1 |
-| | keras v2.1.2| keras v2.11.0 |
-| | bleach v1.5.0| bleach v5.0.1 |
+We used generative adversarial networks (GANs) to do anomaly detection for time series data.
+The GAN framework was **R**GAN, whihc was taken from the paper, _[Real-valued (Medical) Time Series Generation with Recurrent Conditional GANs](https://arxiv.org/abs/1706.02633).
+Please refer to https://github.com/ratschlab/RGAN for the original code.
 
+## Quickstart
 
-LUCID is easier to set up, so as long as you install the latest version of Tensorflow, Pyshark, and Tshark, then the model should run just fine. I left the other dependencies in for the sake of completeness.<br />
+- Python3
 
-The dependencies needed for MAD-GAN were rather complicated. During training, I set up an environment with exact dependencies as shown in the table above. These requirements can't be satisfied however when using the model on a Raspberry Pi 4 (possibly because they are unsupported by the OS?), which is why I used a different environment and modified the anomaly detection script (AD.py) so it will work on the newer depedencies. I can't guarantee that the training script will work as that is not tested yet.<br />
+- Please unpack the data.7z file in the data folder before run RGAN.py and AD.py
 
-## How MAD-GAN & LUCID works
-Dr. Doriguzzi-Corin did a fantastic job at explaining this in his repo (link above), so please refer to that if you would like to run LUCID :D  <br />
+- To train the model:
+  
+  """ python RGAN.py --settings_file kdd99 """
 
-As for MAD-GAN, it is a bit more complicated. Normally, MAD-GAN use .csv inputs for both training and testing. In a nutshell, you would normally run the following (example with swat dataset):  <br />
-Training: `python3 RGAN.py swat` <br />
-Anomaly detection with discriminator: `python3 AD.py swat_test`  <br />
-Anomaly detection with discriminator & generator `python3 AD_Invert.py swat_test`  <br />
+- To do anomaly detection:
 
-For some reason AD_Invert.py would keep running for hours without converging, so I recommend that you don't use in the meantime. It's an ongoing issue which you can find here https://github.com/LiDan456/MAD-GANs/issues/3.<br />
+  """ python AD.py --settings_file kdd99_test"""
+  
+  """ python AD_Invert.py --settings_file kdd99_test"""
 
-Both the `swat` and `swat_test` are referring to the `data` parameter in text files that have the training/testing parameters that MAD-GAN is going to use. Essentially, MAD-GAN will look for `data: swat` or `data: swat_test` in `experiments/settings/\*.txt` to run the models on its own after. This is done through `def get_data()` in `data_utils.py`.<br />
+## Data
 
-Once MAD-GAN found the corresponding "data" name, it will trigger the training and testing function accordingly. Below is a snippet of that.
-`    elif data_type == 'swat':` <br />
-        `samples, labels = swat(seq_length, seq_step, num_signals)`<br />
-    `elif data_type == 'swat_test':`<br />
-        `samples, labels, index = swat_test(seq_length, seq_step, num_signals)`<br />
+We apply our method on the SWaT and WADI datasets in the paper, however, we didn't upload the data in this repository. Please refer to https://itrust.sutd.edu.sg/ and send request to iTrust is you want to try the data.
 
-The training process will leave multiple `.npy` files in the `experiments/parameters` directory. When using the `AD.py`, the scripts will use these `.npy` files to perform anomaly detection. This leads us to the next trick on adapting MAD-GAN to other datasets.<br />
+In this repository we used kdd cup 1999 dataset as an example (please unpack the data.7z file in the data folder before run RGAN.py and AD.py). You can also down load the original data at http://kdd.ics.uci.edu/databases/kddcup99/kddcup99.html
 
-## Adapting MAD-GAN to other datasets (e.g. CICIDS2017 & CICDDoS2019)
-Since I changed MAD-GAN scripts so that it will work on CICIDS2017 & CICDDoS2019, I've uploaded both MAD-GAN (training) and MAD-GAN (testing) here for your convenience (as dependencies can be annoying some times). Luckily, dataset shapes do not seem to be a problem.<br />
-
-There are two main things if you want to train and test any dataset:<br />
-- You need a settings file (.txt) for training, and testing. To be fair, just copy it from the existing files and change a few things which I will talk about.
-- You need to add two functions, one for training and one for testing in `data_utils.py`. In my case, I added cicddos() and cicddos_test() to train on CICIDS2017 and test on CICDDoS2019 datasets.
-- You need to add the selection into `def get_data()` in `data_utils.py` so that `AD.py` can call your new functions.
-
-Truthfully speaking, the cicddos() and cicddos_test() functions are exact copy of the existing swat() and swat_test() functions. You can use kdd99() and kdd99_test() functions as references also. The only changes are the file path to training & testing data. I do think that we can optimize this part of the script to generalize it for multiple datasets, so other users don't have to add new functions every time.<br />
-
-Here's my snippet of `def get_data()`:<br />
-`    elif data_type == 'cicddos2017':`<br />
-        `samples, labels = swat(seq_length, seq_step, num_signals)`<br />
-    `elif data_type == 'cicddos2019'`:<br />
-        `samples, labels, index = swat_test(seq_length, seq_step, num_signals)`<br />
- 
-And here's my snippet of `cicddos()`. You shouldn't need to care about anything else written after this bit. <br />
-`def cicddos(seq_length, seq_step, num_signals, randomize=False):`<br />
-    `train = np.loadtxt(open('./data/cicddos2017_benign.csv'), delimiter=',')`<br />
-    `print('Loaded CICDDoS2017 from .csv')` <br />
-
-This is straightforward. After I copy the `swat()` function, I changed the name to `cicddos()`, and then changed the directory of data in `train = np.loadtxt()`. <br />
-
-The trick to adapting MAD-GAN for training other model is to modify the following parameters of the settings file (e.g. cicddos.txt)<br />
-- "data": This has to match with what `def get_data()` is looking for. E.g. "data": cicddos2017
-- "sub_id": This refer to what model to use when perform anomaly detection. If `sub_id = swat`, the `AD.py` script will look for swat_x_x.npy from `experiments/parameters/` to perform anomaly detection. If it was `sub_id = cicddos`, the `AD.py` script will look for cicddos_x_x.npy instead. 
-- "identifier": This one doesn't really matter, but more often than not it's the same as "data" parameter. 
-
-From the above, I can easily train MAD-GAN with the SWaT dataset and then test it on the CICDDoS2019 dataset by adding the following changes to cicddos_test.txt settings file:<br />
-- "data": cicddos2017
-- "sub_id": swat
-- "identifier": cicddos_test
-
-You should be able to do the same with other datasets.
-
-## Adapting LUCID to other datasets
-I made no changes to the LUCID model, however note that it is tightly implemented for the TCP/IP protocol. As long as LUCID can correctly label data as benign or traffic using the 5-tuple (source IP, source port, destination IP, destination port, protocol), LUCID should works with any dataset. See this issue here for more information:<br />
-https://github.com/doriguzzi/lucid-ddos/issues/7
