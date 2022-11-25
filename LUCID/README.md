@@ -1,4 +1,5 @@
-Use the lucid.ipynb file for your convenience, but refer to the below for better instruction from the author, or just go to his repo.
+Use the lucid.ipynb file for your convenience, but refer to the below for better instruction from the author, or just go to his repo.  
+The `100t-100n-IDS201X-LUCID.h5` file is my trained model, produced from the LUCID scripts.
 
 # LUCID: A Practical, Lightweight Deep Learning Solution for DDoS Attack Detection
 
