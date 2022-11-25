@@ -42,13 +42,13 @@ Anomaly detection with discriminator & generator `python3 AD_Invert.py swat_test
 
 For some reason AD_Invert.py would keep running for hours without converging, so I recommend that you don't use in the meantime. It's an ongoing issue which you can find here https://github.com/LiDan456/MAD-GANs/issues/3.<br />
 
-Both the `swat` and swat_test` are referring to the `data` parameter in text files that have the training/testing parameters that MAD-GAN is going to use. Essentially, MAD-GAN will look for `data: swat` or `data: swat_test` in `experiments/settings/\*.txt` to run the models on its own after. This is done through `def get_data()` in `data_utils.py`.<br />
+Both the `swat` and `swat_test` are referring to the `data` parameter in text files that have the training/testing parameters that MAD-GAN is going to use. Essentially, MAD-GAN will look for `data: swat` or `data: swat_test` in `experiments/settings/\*.txt` to run the models on its own after. This is done through `def get_data()` in `data_utils.py`.<br />
 
 Once MAD-GAN found the corresponding "data" name, it will trigger the training and testing function accordingly. Below is a snippet of that.
-`    elif data_type == 'swat': <br />
-        samples, labels = swat(seq_length, seq_step, num_signals)<br />
-    elif data_type == 'swat_test':<br />
-        samples, labels, index = swat_test(seq_length, seq_step, num_signals)`<br />
+`    elif data_type == 'swat':` <br />
+        `samples, labels = swat(seq_length, seq_step, num_signals)`<br />
+    `elif data_type == 'swat_test':`<br />
+        `samples, labels, index = swat_test(seq_length, seq_step, num_signals)`<br />
 
 The training process will leave multiple `.npy` files in the `experiments/parameters` directory. When using the `AD.py`, the scripts will use these `.npy` files to perform anomaly detection. This leads us to the next trick on adapting MAD-GAN to other datasets.<br />
 
@@ -63,15 +63,15 @@ There are two main things if you want to train and test any dataset:<br />
 Truthfully speaking, the cicddos() and cicddos_test() functions are exact copy of the existing swat() and swat_test() functions. You can use kdd99() and kdd99_test() functions as references also. The only changes are the file path to training & testing data. I do think that we can optimize this part of the script to generalize it for multiple datasets, so other users don't have to add new functions every time.<br />
 
 Here's my snippet of `def get_data()`:
-`    elif data_type == 'cicddos2017':<br />
-        samples, labels = swat(seq_length, seq_step, num_signals)<br />
-    elif data_type == 'cicddos2019':<br />
-        samples, labels, index = swat_test(seq_length, seq_step, num_signals)`<br />
+`    elif data_type == 'cicddos2017':`<br />
+        `samples, labels = swat(seq_length, seq_step, num_signals)`<br />
+    `elif data_type == 'cicddos2019'`:<br />
+        `samples, labels, index = swat_test(seq_length, seq_step, num_signals)`<br />
  
 And here's my snippet of `cicddos()`. You shouldn't need to care about anything else written after this bit. <br />
-`def cicddos(seq_length, seq_step, num_signals, randomize=False):<br />
-    train = np.loadtxt(open('./data/cicddos2017_benign.csv'), delimiter=',')<br />
-    print('Loaded CICDDoS2017 from .csv')` <br />
+`def cicddos(seq_length, seq_step, num_signals, randomize=False):`<br />
+    `train = np.loadtxt(open('./data/cicddos2017_benign.csv'), delimiter=',')`<br />
+    `print('Loaded CICDDoS2017 from .csv')` <br />
 
 This is straightforward. After I copy the `swat()` function, I changed the name to `cicddos()`, and then changed the directory of data in `train = np.loadtxt()`. <br />
 
