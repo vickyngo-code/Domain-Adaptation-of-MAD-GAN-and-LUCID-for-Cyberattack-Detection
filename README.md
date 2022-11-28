@@ -16,7 +16,7 @@ MAD-GAN is an anomaly detection model for cyber-physical systems, trained using 
 - Train LUCID on CICIDS2017 + CICDDoS2019 and test it on SWaT dataset, and vice versa.
 - Train MAD-GAN on CICIDS2017 + CICDDoS2019 and test it on SWaT dataset, and vice versa.
 
-More information on the results can be found in the preprint version of my publication attached here as a pdf (to avoid copyright infringements). After all, research has to be reproducible!
+More information on the results can be found in the preprint version of my publication attached here as a pdf (to avoid copyright infringements). After all, research has to be reproducible! For the script I used to measure computational overhead as described in the paper (CPU & RAM usage), see `monitor_v2.ipynb`.
 
 ## Technical Information
 **CPU**
@@ -39,8 +39,7 @@ OS: Ubuntu 22.04.01
 | | keras v2.1.2| keras v2.11.0 |
 | | bleach v1.5.0| bleach v5.0.1 |
 
-
-LUCID is easier to set up, so as long as you install the latest version of Tensorflow, Pyshark, and Tshark, then the model should run just fine. I left the other dependencies in for the sake of completeness.<br />
+LUCID is easy to set up. As long as you install the latest version of Tensorflow, Pyshark, and Tshark, then the model should run just fine. I left the other dependencies in for the sake of completeness.<br />
 
 The dependencies needed for MAD-GAN were rather complicated. During training, I set up an environment with exact dependencies as shown in the table above. These requirements can't be satisfied however when using the model on a Raspberry Pi 4 (possibly because they are unsupported by the OS?), which is why I used a different environment and modified the anomaly detection script (AD.py) so it will work on the newer depedencies. I can't guarantee that the training script will work as that is not tested yet.<br />
 
