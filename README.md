@@ -16,7 +16,7 @@ MAD-GAN is an anomaly detection model for cyber-physical systems, trained using 
 - Train LUCID on CICIDS2017 + CICDDoS2019 and test it on SWaT dataset, and vice versa.
 - Train MAD-GAN on CICIDS2017 + CICDDoS2019 and test it on SWaT dataset, and vice versa.
 
-More information on the results can be found in the preprint version of my publication attached here as a pdf (to avoid copyright infringements). After all, research has to be reproducible! For the script I used to measure computational overhead as described in the paper (CPU & RAM usage), see `monitor_v2.ipynb`.
+More information on the experiment designs and results can be found in the preprint version of my publication attached here as a pdf (to avoid copyright infringements). Consider it a 'research report', if you will. After all, research has to be reproducible! For the script I used to measure computational overhead as described in the paper (CPU & RAM usage), see `monitor_v2.ipynb`.
 
 ## Technical Information
 **CPU**
