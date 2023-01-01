@@ -10,14 +10,16 @@ SWaT: https://itrust.sutd.edu.sg/itrust-labs_datasets/dataset_info/ <br />
 
 This GitHub repo stores the project I did for my Master of Philosophy thesis at Auckland University of Technology, and for the following publication:
 (upcoming) <br />
-Please cite the publication and this repo if you are using it for academia purposes.
+Please cite BOTH the publication and this repository, that would be highly appreciated!
 
+More information on the experiment designs and results can be found in the preprint version of my publication attached in this repo as a pdf. It includes more detailed data on the DDoS rate reported by LUCID, and more in-depth analysis than the paper (albeit roughly written). My paper also cite this repository so others can find more information. After all, I firmly believe that research has to be reproducible.
+
+## Summary
 MAD-GAN is an anomaly detection model for cyber-physical systems, trained using the SWaT dataset. LUCID is a DDoS detection model for network, IoT, edge computing, trained with datasets from University of New Brunswick (incl. CICIDS2017 at the time of publication). In this research, I attempted to perform domain adaptation (transfer learning) on both models, i.e.
 - Train LUCID on CICIDS2017 + CICDDoS2019 and test it on SWaT dataset, and vice versa.
 - Train MAD-GAN on CICIDS2017 + CICDDoS2019 and test it on SWaT dataset, and vice versa.
 
-More information on the experiment designs and results can be found in the preprint version of my publication attached here as a pdf (to avoid copyright infringements). Consider it a 'research report', if you will. After all, research has to be reproducible! For the script I used to measure computational overhead as described in the paper (CPU & RAM usage), see `monitor_v2.ipynb`.
-
+For the script I used to measure computational overhead as described in the paper (CPU & RAM usage), see `monitor_v2.ipynb`.
 ## Technical Information
 **CPU**
 HP Z4 G4 Workstation  
