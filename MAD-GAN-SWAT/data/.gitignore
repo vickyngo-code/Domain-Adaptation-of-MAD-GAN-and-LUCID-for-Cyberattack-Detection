@@ -1,0 +1,4 @@
+# Ignore everything in this directory
+* Put your training or testing data into this directory in .csv format
+# Except this file
+!.gitignore
